@@ -1,6 +1,6 @@
 //vite documentation of handling
 //api fetch
-export default function fetchJson(input, init, query) {
+export default async function fetchJson(input, init, query) {
 	return fetch(
 		`${input}?${new URLSearchParams({
 			...query,

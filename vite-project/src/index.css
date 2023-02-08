@@ -9,3 +9,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.changeBg {
+  background-image: linear-gradient(to right, #2d64a7, #d8c8e3);
+}
