@@ -1,41 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar';
 import Search from '../components/Search';
 import Footer from '../components/Footer';
+import Modal from '../components/Modal';
+import { fetchCity } from '../lib/fetchJson';
 
 export const Weather = () => {
-  const [city, setCity] = useState("");
-  const URL = '';
+  const [cityData, setCityData] = useState(null)
 
-  useEffect(() => {
-
-  }, []);
-
-  const getCity = async (e) => {
-    setCity(e.target.value);
-    if(e.code === "Enter") {
-      fetchCity();
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    const searchValue = e.target.querySelector('#search').value
+    {/* If the target of the event is also null, will return value for CityData to null*/}
+    if(!searchValue) {
+      setCityData(null)
+      return
     }
+
+    const { data, res } = await fetchCity(searchValue)
+
+  {/* If fetching of API is unsuccessful, will return the value for CityData to null */}
+  {/* Error handling */}
+    if(!res.ok) {
+      setCityData(null)
+      return
+    }
+
+    setCityData(data)
   }
 
-  const fetchCity = () => {
-    // await fetch()
-    //   .then((res) => res.json())
-    //   .then((data) => {
-          
-    //   }).catch((err) => {
-
-    //   }).finally(()=> {
-    //     setTimeout(() => {
-
-    //     },2000);
-    //   })
-    return city
-  }
   return (
     <div className=''>
-      <Navbar city={city} fetchCity={fetchCity}/>
-      <Search getCity={getCity} fetchCity={fetchCity}/>
+      <Navbar city={cityData}/>
+      <Search handleSearch={handleSearch}/>
+      {/* if city data is not empty or undefined since cityData variable is an object*/}
+      {cityData && <Modal data={cityData} />}
       <Footer />
     </div>
   )
